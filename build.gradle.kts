@@ -13,7 +13,7 @@ dependencies {
 sourceSets {
   main {
     groovy {
-      srcDirs("vars", "src/main/groovy")
+      srcDirs("vars", "pipeline", "src/main/groovy")
     }
   }
 }
