@@ -1,3 +1,5 @@
 pipeline {
-  agent: 'linux'
+  agent: {
+    label: 'linux'
+  }
 }
