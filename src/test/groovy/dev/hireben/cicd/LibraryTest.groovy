@@ -3,7 +3,7 @@ package dev.hireben.cicd
 import spock.lang.Specification
 
 class LibraryTest extends Specification {
-  def "someLibraryMethod returns true"() {
+  def someLibraryMethodReturnsTrue() {
     setup:
     def lib = new Library()
 
