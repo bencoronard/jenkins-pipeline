@@ -34,15 +34,15 @@ class JenkinsfileTest extends Specification {
         pipelineTest.assertJobStatusSuccess()
 
         // Check Build stage sh call
-        // pipelineTest.helper.callStack.any { call ->
-        //     call.methodName == 'sh' &&
-        //     pipelineTest.callArgsToString(call).contains('echo Building...')
-        // }
+        pipelineTest.helper.callStack.any { c ->
+            c.methodName == 'sh' &&
+            c.args.toString().contains('echo Building...')
+        }
 
         // Check Test stage sh call
-        // pipelineTest.callStack.any { call ->
-        //     call.methodName == 'sh' &&
-        //     pipelineTest.callArgsToString(call).contains('echo Running tests...')
-        // }
+        pipelineTest.helper.callStack.any { c ->
+            c.methodName == 'sh' &&
+            c.args.toString().contains('echo Running tests...')
+        }
     }
 }
