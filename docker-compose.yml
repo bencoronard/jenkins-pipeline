@@ -1,0 +1,38 @@
+services:
+  jenkins:
+    image: jenkins/jenkins:alpine-jdk21
+    restart: unless-stopped
+    volumes:
+      - hb_jenkins_home:/var/jenkins_home
+    networks:
+      - hb-devops-network
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    environment:
+      GITLAB_HOST: gitlab:80
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    restart: unless-stopped
+    volumes:
+      - hb_gitlab_data:/var/opt/gitlab
+      - hb_gitlab_config:/etc/gitlab
+      - hb_gitlab_logs:/var/log/gitlab
+    networks:
+      - hb-devops-network
+    ports:
+      - "80:80"
+      - "443:443"
+      - "2222:22"
+    environment:
+      JENKINS_HOST: jenkins:8080
+
+volumes:
+  hb_jenkins_home:
+  hb_gitlab_data:
+  hb_gitlab_config:
+  hb_gitlab_logs:
+
+networks:
+  hb-devops-network:
