@@ -1,19 +1,21 @@
 services:
   jenkins:
     image: jenkins/jenkins:alpine-jdk21
+    container_name: jenkins-controller
     restart: unless-stopped
     volumes:
       - hb_jenkins_home:/var/jenkins_home
+      - /run/podman/podman.sock:/var/run/docker.sock:Z
     networks:
       - hb-devops-network
     ports:
       - "8080:8080"
-      - "50000:50000"
     environment:
       GITLAB_HOST: gitlab:80
 
   gitlab:
     image: gitlab/gitlab-ce:latest
+    container_name: gitlab-server
     restart: unless-stopped
     volumes:
       - hb_gitlab_data:/var/opt/gitlab
@@ -22,8 +24,8 @@ services:
     networks:
       - hb-devops-network
     ports:
-      - "80:80"
-      - "443:443"
+      - "8000:80"
+      - "8443:443"
       - "2222:22"
     environment:
       JENKINS_HOST: jenkins:8080
