@@ -9,7 +9,7 @@ services:
     networks:
       - hb-devops-network
     ports:
-      - "8080:8080"
+      - "8081:8080"
     environment:
       GITLAB_HOST: gitlab:80
 
@@ -17,6 +17,7 @@ services:
     image: gitlab/gitlab-ce:latest
     container_name: gitlab-server
     restart: unless-stopped
+    shm_size: 256m
     volumes:
       - hb_gitlab_data:/var/opt/gitlab
       - hb_gitlab_config:/etc/gitlab
@@ -24,9 +25,9 @@ services:
     networks:
       - hb-devops-network
     ports:
-      - "8000:80"
+      - "8080:80"
       - "8443:443"
-      - "2222:22"
+      - "8022:22"
     environment:
       JENKINS_HOST: jenkins:8080
 
