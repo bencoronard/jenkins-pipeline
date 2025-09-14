@@ -16,8 +16,6 @@ repositories {
 dependencies {
   // Groovy runtime
   implementation 'org.apache.groovy:groovy-all:4.0.28'
-  // Jenkins pipeline unit testing
-  testImplementation 'com.lesfurets:jenkins-pipeline-unit:1.26'
   // Testing frameworks
   testImplementation 'org.spockframework:spock-core:2.4-M6-groovy-4.0'
 }
