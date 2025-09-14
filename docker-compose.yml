@@ -30,6 +30,8 @@ services:
       - "8022:22"
     environment:
       JENKINS_HOST: jenkins:8080
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost:8080'
 
 volumes:
   hb_jenkins_home:
