@@ -63,11 +63,9 @@ networks:
 # alertmanager['enable'] = false
 # gitlab_exporter['enable'] = false
 # gitlab_kas['enable'] = false
-# gitlab_rails['enable'] = false
 # grafana['enable'] = false
 # letsencrypt['enable'] = false
 # node_exporter['enable'] = false
 # postgres_exporter['enable'] = false
 # prometheus['enable'] = false
 # redis_exporter['enable'] = false
-# redis['enable'] = false
