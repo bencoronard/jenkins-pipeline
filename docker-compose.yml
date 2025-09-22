@@ -35,7 +35,6 @@ services:
         redis['maxmemory'] = '32mb'
         puma['worker_processes'] = 2
         actioncable['worker_pool_size'] = 1
-        prometheus_monitoring['enable'] = false
         grafana['enable'] = false
         alertmanager['enable'] = false
         sidekiq['enable'] = false
@@ -47,6 +46,13 @@ services:
         pages['enable'] = false
         registry['enable'] = false
         gitlab_ci['gitlab_runner'] = false
+        gitlab_exporter['enable'] = false
+        gitlab_kas['enable'] = false
+        letsencrypt['enable'] = false
+        node_exporter['enable'] = false
+        postgres_exporter['enable'] = false
+        prometheus['enable'] = false
+        redis_exporter['enable'] = false
 
 volumes:
   # hb_jenkins_home:
@@ -56,16 +62,3 @@ volumes:
 
 networks:
   hb-devops-network:
-
-
-
-# Shut down GitLab services on the Mattermost server
-# alertmanager['enable'] = false
-# gitlab_exporter['enable'] = false
-# gitlab_kas['enable'] = false
-# grafana['enable'] = false
-# letsencrypt['enable'] = false
-# node_exporter['enable'] = false
-# postgres_exporter['enable'] = false
-# prometheus['enable'] = false
-# redis_exporter['enable'] = false
