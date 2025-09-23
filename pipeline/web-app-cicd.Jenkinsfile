@@ -13,4 +13,10 @@ pipeline {
     }
 
   }
+
+  post {
+    success {
+      echo 'Pipeline ran successfully'
+    }
+  }
 }
