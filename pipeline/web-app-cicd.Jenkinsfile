@@ -4,19 +4,31 @@ pipeline {
 
   agent { label 'linux' }
 
+  options {
+    timeout time: 10, unit: 'MINUTES'
+  }
+
+  environment {
+    SCRIPT = credentials 'script-hello'
+  }
+
+  parameters{
+    string name: 'ARG', defaultValue: '', description: 'Specify an argument'
+  }
+
   stages {
 
     stage('Initialize') {
       steps {
-        init()
+        runScript file: env.SCRIPT, arg: params.ARG
       }
     }
 
   }
 
   post {
-    success {
-      echo 'Pipeline ran successfully'
+    always {
+      cleanWs()
     }
   }
 }
