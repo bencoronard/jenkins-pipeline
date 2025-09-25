@@ -1,16 +1,16 @@
 services:
-  # jenkins:
-  #   image: docker.io/jenkins/jenkins:alpine-jdk21
-  #   restart: unless-stopped
-  #   security_opt:
-  #     - label=type:container_runtime_t
-  #   volumes:
-  #     - hb_jenkins_home:/var/jenkins_home:z
-  #     - /run/user/1000/podman/podman.sock:/var/run/docker.sock:Z
-  #   networks:
-  #     - hb-devops-network
-  #   ports:
-  #     - '8880:8080'
+  jenkins:
+    image: docker.io/jenkins/jenkins:alpine-jdk21
+    restart: unless-stopped
+    security_opt:
+      - label=type:container_runtime_t
+    volumes:
+      - hb_jenkins_home:/var/jenkins_home:z
+      - /run/user/1000/podman/podman.sock:/var/run/docker.sock:Z
+    networks:
+      - hb-devops-network
+    ports:
+      - '8880:8080'
 
   gitlab:
     image: docker.io/gitlab/gitlab-ce:latest
@@ -53,7 +53,7 @@ services:
         redis_exporter['enable'] = false
 
 volumes:
-  # hb_jenkins_home:
+  hb_jenkins_home:
   hb_gitlab_data:
   hb_gitlab_config:
   hb_gitlab_logs:
