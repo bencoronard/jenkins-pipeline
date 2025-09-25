@@ -1,10 +1,18 @@
 @Library('dev-hireben-common') _
 
-// Event classification
-def IS_ROLLBACK = !['MERGE', 'TAG_PUSH'].contains env.gitlabActionType
-def IS_MERGE_TRUNK = true
-def IS_TAG_RC = true
-def IS_TAG_RELEASE = true
+// Git events
+def IS_TAG_EVENT = env.gitlabActionType == 'TAG_PUSH'
+def IS_MERGE_EVENT = env.gitlabActionType == 'MERGE'
+def EVENT_TARGET = env.gitlabTargetBranch
+// Workflow actions
+def IS_MERGE_TRUNK = IS_MERGE_EVENT && EVENT_TARGET == 'main'
+def IS_TAG_RC = IS_TAG_EVENT && (EVENT_TARGET ==~ /v\d+\.\d+\.\d+-rc/)
+def IS_TAG_RELEASE = IS_TAG_EVENT && (EVENT_TARGET ==~ /v\d+\.\d+\.\d+/)
+def IS_ROLLBACK = !IS_MERGE_TRUNK && !IS_TAG_RC && !IS_TAG_RELEASE
+// Directories
+def CODE_DIR = '.code'
+def HELM_DIR = '.helm'
+def PROD_DIR = '.prod'
 
 pipeline {
 
@@ -19,7 +27,7 @@ pipeline {
   }
 
   parameters{
-    choice name: 'ENV_TO_ROLLBACK', choices: ['dev', 'stag', 'prod'], description: 'Choose environment to rollback'
+    choice name: 'ENV_TO_ROLLBACK', choices: ['dev', 'stage', 'prod'], description: 'Choose environment to rollback'
     string name: 'ROLLBACK_TO_VERSION', defaultValue: '', description: 'Specify a commit/tag to rollback (e.g., "abc1234", "v1.0.0")'
   }
 
