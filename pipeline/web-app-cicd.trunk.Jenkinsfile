@@ -1,5 +1,11 @@
 @Library('dev-hireben-common') _
 
+// Event classification
+def IS_ROLLBACK = !['MERGE', 'TAG_PUSH'].contains env.gitlabActionType
+def IS_MERGE_TRUNK = true
+def IS_TAG_RC = true
+def IS_TAG_RELEASE = true
+
 pipeline {
 
   agent { label 'linux' }
