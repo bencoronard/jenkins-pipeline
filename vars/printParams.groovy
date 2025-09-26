@@ -1,5 +1,8 @@
 def call(Map args = [:]) {
-  args.params.each { name, value ->
-    echo "${name}=${value}"
-  }
+  def output = args.params.sort().collect { name, value ->
+    "${name}=${value}"
+  }.join('\n')
+  echo '>>>>>>>>>>>>>>>>>>>>>>>>>>>>> PARAMS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>'
+  echo output
+  echo '<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'
 }
