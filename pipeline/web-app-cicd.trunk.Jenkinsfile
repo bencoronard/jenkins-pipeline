@@ -4,6 +4,10 @@
 def IS_TAG_EVENT = env.gitlabActionType == 'TAG_PUSH'
 def IS_MERGE_EVENT = env.gitlabActionType == 'MERGE'
 def EVENT_TARGET = env.gitlabTargetBranch
+// Workflow variables
+def ENV_DEV = 'dev'
+def ENV_STAGING = 'stage'
+def ENV_PROD = 'prod'
 // Workflow actions
 def IS_MERGE_TRUNK = IS_MERGE_EVENT && EVENT_TARGET == 'main'
 def IS_TAG_RC = IS_TAG_EVENT && (EVENT_TARGET ==~ /v\d+\.\d+\.\d+-rc/)
@@ -23,7 +27,7 @@ pipeline {
   }
 
   parameters{
-    choice name: 'ENV_TO_ROLLBACK', choices: ['dev', 'stage', 'prod'], description: 'Choose environment to rollback'
+    choice name: 'ENV_TO_ROLLBACK', choices: [ENV_DEV, ENV_STAGING, ENV_PROD], description: 'Choose environment to rollback'
     string name: 'ROLLBACK_TO_VERSION', defaultValue: '', description: 'Specify a commit/tag to rollback (e.g., "abc1234", "v1.0.0")'
   }
 
@@ -34,7 +38,7 @@ pipeline {
         expression { IS_MERGE_TRUNK }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Querying merge data...'
       }
     }
 
@@ -43,7 +47,7 @@ pipeline {
         expression { IS_MERGE_TRUNK }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Pulling source code...'
       }
     }
 
@@ -52,7 +56,7 @@ pipeline {
         expression { IS_MERGE_TRUNK }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Triggered SAST/SCA'
       }
     }
 
@@ -61,7 +65,7 @@ pipeline {
         expression { IS_MERGE_TRUNK }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Building image...'
       }
     }
 
@@ -70,7 +74,7 @@ pipeline {
         expression { IS_MERGE_TRUNK }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Pushing to image registry...'
       }
     }
 
@@ -79,13 +83,13 @@ pipeline {
         expression { !IS_MERGE_TRUNK }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Checking image existence...'
       }
     }
 
     stage('Generate manifest') {
       steps {
-        echo 'Hello, world'
+        echo 'Generating manifest...'
       }
     }
 
@@ -97,7 +101,7 @@ pipeline {
         }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Adding tag to existing image...'
       }
     }
 
@@ -106,7 +110,7 @@ pipeline {
         expression { IS_TAG_RC }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Scheduled DAST'
       }
     }
 
@@ -114,11 +118,11 @@ pipeline {
       when {
         allOf {
           expression { !IS_TAG_RELEASE }
-          expression { params.ENV_TO_ROLLBACK != 'prod' }
+          expression { params.ENV_TO_ROLLBACK != ENV_PROD }
         }
       }
       steps {
-        echo 'Hello, world'
+        echo 'Deploying...'
       }
     }
 
@@ -126,19 +130,11 @@ pipeline {
       when {
         anyOf {
           expression { IS_TAG_RELEASE }
+          expression { params.ENV_TO_ROLLBACK == ENV_PROD }
         }
       }
       steps {
-        echo 'Hello, world'
-      }
-    }
-
-    stage('Deliver image') {
-      when {
-        expression { IS_TAG_RELEASE }
-      }
-      steps {
-        echo 'Hello, world'
+        echo 'Delivering manifest...'
       }
     }
 
