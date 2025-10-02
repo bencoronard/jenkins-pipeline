@@ -1,7 +1,7 @@
 @Library('dev-hireben-common') _
 
 // Workflow variables
-def ENV_DEV = 'dev'
+def ENV = 'dev'
 // Directories
 def DIR_SOURCE_CODE = '.source'
 
