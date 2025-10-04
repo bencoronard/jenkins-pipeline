@@ -2,7 +2,7 @@ def printEnv() {
   sh 'printenv | sort'
 }
 
-def printParams(Map args = [:]) {
+def printJobParams(Map args = [:]) {
   def output = args.params.sort().collect { name, value ->
     "${name}=${value}"
   }.join('\n')

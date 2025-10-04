@@ -5,7 +5,7 @@ def buildImage(Map args = [:]) {
     docker.withRegistry(constructRegistryUrl("${HOST}"), args.credentialsId) {
       return docker.build(
         "${HOST}/${args.name}:${args.tag}",
-        "--build-arg -f ${args.dockerfile} ENV=${args.environment}"
+        "--build-arg -f ${args.dockerfile} ENVIR=${args.environment}"
       )
     }
   }
