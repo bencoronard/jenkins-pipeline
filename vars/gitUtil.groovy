@@ -29,6 +29,7 @@ def commitAllAndPushToRemote(Map args = [:]) {
   ]) {
     sh """
       git add . && \
+      git diff-index --quiet HEAD || \
       git commit -m '${args.message}' && \
       git push
     """
