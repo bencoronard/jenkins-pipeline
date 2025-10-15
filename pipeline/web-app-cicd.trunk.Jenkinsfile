@@ -10,8 +10,8 @@ def ENV_STAGING = 'stage'
 def ENV_PROD = 'prod'
 // Workflow actions
 def IS_MERGE_TRUNK = IS_MERGE_EVENT && EVENT_TARGET == 'main'
-def IS_TAG_RC = IS_TAG_EVENT && EVENT_TARGET ==~ /v\d+\.\d+\.\d+-rc/
-def IS_TAG_RELEASE = IS_TAG_EVENT && EVENT_TARGET ==~ /v\d+\.\d+\.\d+/
+def IS_TAG_RC = IS_TAG_EVENT && EVENT_TARGET ==~ /refs\/tags\/v\d+\.\d+\.\d+-rc/
+def IS_TAG_RELEASE = IS_TAG_EVENT && EVENT_TARGET ==~ /refs\/tags\/v\d+\.\d+\.\d+/
 // Directories
 def DIR_SOURCE_CODE = '.source'
 def DIR_VALUES = '.values'
